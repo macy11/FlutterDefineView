@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'cliper/tabbar_cliper.dart';
 import 'painter/clip_shadow_painter.dart';
 
+typedef ValueChanged<int> = void Function(int value);
+
 class MFNavigatorBar extends StatefulWidget {
-  const MFNavigatorBar({super.key});
+  final ValueChanged<int> onTap;
+
+  const MFNavigatorBar({super.key, required this.onTap});
 
   @override
   State<MFNavigatorBar> createState() => _MFNavigatorBarState();
@@ -44,11 +48,11 @@ class _MFNavigatorBarState extends State<MFNavigatorBar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _normalTab('Tab1'),
-              _normalTab('Tab2'),
+              _normalTab(0, 'Tab1'),
+              _normalTab(1, 'Tab2'),
               _centerTab(),
-              _normalTab('Tab3'),
-              _normalTab('Tab4'),
+              _normalTab(3, 'Tab3'),
+              _normalTab(4, 'Tab4'),
             ],
           ),
         ),
@@ -57,16 +61,21 @@ class _MFNavigatorBarState extends State<MFNavigatorBar> {
   }
 
   /// 正常tab
-  Widget _normalTab(String tabName) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 14),
-      child: Container(
-        height: 60,
-        color: Colors.white,
-        alignment: Alignment.center,
-        child: Text(
-          tabName,
-          style: const TextStyle(fontSize: 16, color: Colors.blue),
+  Widget _normalTab(int index, String tabName) {
+    return GestureDetector(
+      onTap: () {
+        widget.onTap(index);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 14),
+        child: Container(
+          height: 60,
+          color: Colors.white,
+          alignment: Alignment.center,
+          child: Text(
+            tabName,
+            style: const TextStyle(fontSize: 16, color: Colors.blue),
+          ),
         ),
       ),
     );
@@ -121,7 +130,9 @@ class _MFNavigatorBarState extends State<MFNavigatorBar> {
           ],
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        widget.onTap(2);
+      },
     );
   }
 }

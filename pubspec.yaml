@@ -40,6 +40,7 @@ dependencies:
 #  pull_to_refresh_flutter3: 2.0.2
   pull_to_refresh: ^2.0.0
   auto_orientation: ^2.3.1
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:

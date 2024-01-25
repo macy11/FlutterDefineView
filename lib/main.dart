@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mcy_define_view/other_ink_well_btn_page.dart';
 import 'package:mcy_define_view/picture_ink_well_page.dart';
 import 'package:mcy_define_view/ripple/card_view_page.dart';
@@ -204,6 +205,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _openBezierCurve() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const MFNavigatorBar()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return MFNavigatorBar(
+        onTap: (int value) {
+          Fluttertoast.showToast(
+              msg: "This is Center Short Toast $value",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        },
+      );
+    }));
   }
 }
