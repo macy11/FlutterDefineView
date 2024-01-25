@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class NavigatorRailPage extends StatefulWidget {
-  const NavigatorRailPage({super.key});
+class CardViewPage extends StatefulWidget {
+  const CardViewPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _NavigatorRailPageState();
+    return _CardViewPageState();
   }
 }
 
-class _NavigatorRailPageState extends State {
+class _CardViewPageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _NavigatorRailPageState extends State {
           elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
-            side: BorderSide(
+            side: const BorderSide(
               color: Colors.yellow,
               width: 3,
             ),
@@ -30,8 +30,8 @@ class _NavigatorRailPageState extends State {
             child: InkWell(
               onTap: () {},
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 50),
-                child: Text('Card'),
+                padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                child: const Text('Card'),
               ),
             ),
           ),

@@ -91,7 +91,11 @@ class _MFNavigatorBarState extends State<MFNavigatorBar> {
           ),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.3), offset: const Offset(0, 4), blurRadius: 8, spreadRadius: 1.0),
+              color: Colors.black.withOpacity(0.3),
+              offset: const Offset(0, 4),
+              blurRadius: 8,
+              spreadRadius: 1.0,
+            ),
           ],
         ),
         child: Column(

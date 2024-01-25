@@ -22,10 +22,10 @@ class TabBarDetailPageState extends State<TabBarDetailPage> {
     if (Platform.isIOS) {
       OrientationHelper.forceOrientation(DeviceOrientation.landscapeRight);
     } else if (Platform.isAndroid) {
-      OrientationHelper.forceOrientation(DeviceOrientation.landscapeLeft);
+      // OrientationHelper.forceOrientation(DeviceOrientation.landscapeLeft);
       // 强制横屏
-      // SystemChrome.setPreferredOrientations(
-      //     [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+      SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     }
     super.initState();
   }
@@ -40,9 +40,11 @@ class TabBarDetailPageState extends State<TabBarDetailPage> {
         ),
       ),
       onWillPop: () async {
-        OrientationHelper.forceOrientation(DeviceOrientation.portraitUp);
-        // SystemChrome.setPreferredOrientations(
-        //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+        // OrientationHelper.forceOrientation(DeviceOrientation.portraitUp);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
         return true;
       },
     );
@@ -50,9 +52,11 @@ class TabBarDetailPageState extends State<TabBarDetailPage> {
 
   @override
   void dispose() {
-    OrientationHelper.forceOrientation(DeviceOrientation.portraitUp);
-    // SystemChrome.setPreferredOrientations(
-    //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    // OrientationHelper.forceOrientation(DeviceOrientation.portraitUp);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 }

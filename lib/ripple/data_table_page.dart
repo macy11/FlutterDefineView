@@ -4,12 +4,12 @@ class DataTablePage extends StatefulWidget {
   const DataTablePage({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  State<DataTablePage> createState() {
     return _DataTablePageState();
   }
 }
 
-class _DataTablePageState extends State {
+class _DataTablePageState extends State<DataTablePage> {
   List<User> data = [
     User('老孟0', 18),
     User('老孟1', 19, selected: true),
@@ -19,7 +19,6 @@ class _DataTablePageState extends State {
   ];
 
   var _sortAscending = true;
-
 
   @override
   void initState() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcy_define_view/tab_bar_detail_page.dart';
+import 'package:mcy_define_view/utils/screen_utils.dart';
 
 import 'main.dart';
 
@@ -10,9 +11,12 @@ class TabBarPage extends StatefulWidget {
   State<TabBarPage> createState() => TabBarPageState();
 }
 
-class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, WidgetsBindingObserver, RouteAware {
+class TabBarPageState extends State<TabBarPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin, WidgetsBindingObserver, RouteAware {
   var tabs = <int>[];
   late TabController tabController;
+
+  // late PageController pageController;
   var tabWidgets = <Widget>[];
   var tabBarViewWidgets = <Widget>[];
   var currentIndex = 0;
@@ -82,47 +86,59 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
     }).toList();
     tabBarViewWidgets.addAll(list2);
     currentIndex = tabWidgets.length - 1;
+    print('macy777 ----->initState:【$currentIndex】');
     tabController = TabController(length: tabWidgets.length, vsync: this, initialIndex: currentIndex)
       ..addListener(() {
         var value = tabController.animation?.value;
         if (tabController.index.toDouble() == value) {
-          currentIndex == value;
-          print('macy777 ----->value:【$value】curTabIndex:【${tabController.index}】');
+          currentIndex = tabController.index;
+          print('macy777 ----->value:【$value】curTabIndex:【${tabController.index.toDouble()}】');
         }
       });
+    // pageController = PageController(initialPage: currentIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(builder: (BuildContext context, Orientation orientation) {
-      print('macy777 orientation---$orientation');
-      return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            MediaQuery(
-                data: const MediaQueryData(),
-                child: TabBar(
-                  tabs: tabWidgets,
-                  controller: tabController,
-                  isScrollable: true,
-                  physics: const BouncingScrollPhysics(),
-                  indicatorWeight: 5.0,
-                  onTap: (index) {
-                    currentIndex = index;
-                    print('macy777 ---onTap---$currentIndex');
-                  },
-                )),
-            Expanded(
-              child: TabBarView(
+    super.build(context);
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          PreferredSize(
+              preferredSize: Size.fromWidth(ScreenUtils.screenW(context)),
+              child: TabBar(
+                key: const Key('TabBar'),
+                tabs: tabWidgets,
                 controller: tabController,
-                children: tabBarViewWidgets,
-              ),
-            )
-          ],
-        ),
-      );
-    });
+                isScrollable: true,
+                physics: const BouncingScrollPhysics(),
+                indicatorWeight: 5.0,
+                onTap: (index) {
+                  currentIndex = index;
+                  // pageController.jumpToPage(index);
+                  print('macy777 ---onTap---$currentIndex');
+                },
+              )),
+          Expanded(
+            child: TabBarView(
+              key: const Key('TabBarView'),
+              controller: tabController,
+              children: tabBarViewWidgets,
+            ),
+            // child: PageView(
+            //   controller: pageController,
+            //   children: tabBarViewWidgets,
+            //   onPageChanged: (index) {
+            //     // 当 PageController 的值发生变化时，同步更新 TabController 的值
+            //     tabController.animateTo(index);
+            //   },
+            // ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -153,7 +169,7 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
     return Container(
       width: 106,
       alignment: Alignment.center,
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
@@ -169,7 +185,7 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
   void didChangeDependencies() {
     super.didChangeDependencies();
     // 添加监听订阅
-    MyApp.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
   }
 
   @override
@@ -183,7 +199,7 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
   void didPushNext() {
     super.didPushNext();
     // 当前页面push到其他页面走这里
-    print('macy777 生命周期监听 didPushNext');
+    print('macy777 生命周期监听 didPushNext currentIndex:$currentIndex');
   }
 
   @override
@@ -196,8 +212,15 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
   @override
   void didPopNext() {
     super.didPopNext();
+    var originIndex = currentIndex;
     // 从其他页面pop回当前页面走这里
-    print('macy777 生命周期监听 didPopNext');
+    print('macy777 生命周期监听 didPopNext: $currentIndex');
+    if (originIndex > 1) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        tabController.animateTo(originIndex - 1);
+        tabController.animateTo(originIndex);
+      });
+    }
   }
 
   @override
@@ -205,6 +228,9 @@ class TabBarPageState extends State<TabBarPage> with TickerProviderStateMixin, W
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
     // 移除监听订阅
-    MyApp.routeObserver.unsubscribe(this);
+    routeObserver.unsubscribe(this);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
