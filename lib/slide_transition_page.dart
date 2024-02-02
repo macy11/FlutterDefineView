@@ -37,20 +37,20 @@ class _SlideTransitionPageState extends State<SlideTransitionPage> with SingleTi
     return Scaffold(
         appBar: AppBar(),
         body: SafeArea(
-          child: Stack(
-            children: [
-              SlideTransition(
-                position: _offsetAnimation,
-                child: Container(
-                  color: Colors.lightGreenAccent,
-                  width: 150,
-                  height: 150,
-                  child: const SizedBox(),
-                ),
+            child: Stack(
+          children: [
+            Container(width: double.infinity, height: double.infinity, color: Colors.lightGreen, child: null),
+            SlideTransition(
+              position: _offsetAnimation,
+              child: Container(
+                color: Colors.orangeAccent,
+                width: 150,
+                height: 150,
+                child: null,
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        )));
   }
 
   @override

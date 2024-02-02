@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mcy_define_view/notification_route.dart';
 
 class OtherInkWellBtnPage extends StatefulWidget {
   const OtherInkWellBtnPage({super.key});
@@ -22,14 +23,18 @@ class _OtherInkWellBtnPageState extends State<OtherInkWellBtnPage> {
               child: Ink(
                 color: Colors.orange,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return const NotificationRoute();
+                    }));
+                  },
                   splashColor: Colors.blueAccent,
                   child: Container(
                     alignment: Alignment.center,
                     width: 100,
                     height: 100,
                     child: const Text(
-                      'InkWell',
+                      'Notification\nRoute',
                       style: TextStyle(
                         fontSize: 16,
                       ),
